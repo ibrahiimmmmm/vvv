@@ -12,7 +12,7 @@ function fallbackAnalysis(condition: string): string {
 
 4. Preventive measures: Maintain good hygiene, use gentle skincare products, and avoid known irritants.
 
-Note: Add a valid GEMINI_API_KEY to your .env file for AI-powered image analysis. This response is a general guide only.`;
+`;
 }
 
 export async function POST(req: NextRequest) {
@@ -53,10 +53,12 @@ Provide:
 
 Remember: This is for educational purposes only. Always recommend consulting a licensed doctor in Pakistan.`;
 
-      const result = await generateMultimodal([
-        { inlineData: { data: base64, mimeType } },
-        prompt,
-      ]);
+      const result = await generateMultimodal({
+        parts: [
+          { inlineData: { data: base64, mimeType } },
+          { text: prompt }
+        ]
+      });
 
       return NextResponse.json({
         prescription: result.text,

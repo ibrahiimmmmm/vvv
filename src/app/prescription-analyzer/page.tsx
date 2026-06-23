@@ -148,7 +148,7 @@ export default function PrescriptionAnalyzer() {
                         : 'bg-amber-100 text-amber-700'
                     }`}
                   >
-                    {aiPowered ? 'Gemini AI Analysis' : 'General Guidance (no AI key or quota)'}
+                    {aiPowered ? 'Gemini AI Analysis' : 'General Guidance '}
                   </span>
                 </div>
                 <div className="bg-white rounded-xl p-5 border border-emerald-100">
