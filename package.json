@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
@@ -22,14 +23,14 @@
   "homepage": "https://github.com/anas-ali9/patient#readme",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^6.3.0",
     "@tailwindcss/postcss": "^4.3.1",
     "@types/node": "^26.0.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "jsonwebtoken": "^9.0.3",
     "next": "^16.2.9",
-    "prisma": "^7.8.0",
+    "prisma": "^6.3.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwindcss": "^4.3.1",
