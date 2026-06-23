@@ -2,33 +2,47 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { generateText, hasGeminiKey } from '@/lib/gemini';
 import { FALLBACK_DOCTORS, normalizeDoctor, type DoctorRecord } from '@/lib/doctors';
-
+type DoctorType = {
+  id: string;
+  name: string;
+  specialization: string;
+  experience: number;
+  rating: number;
+  consultationFee: number;
+  location: string;
+  hospital: string;
+  phone: string | null;
+  email: string | null;
+  imageUrl: string | null;
+  source: string;
+  profileUrl: string | null;
+};
 async function getDoctors(): Promise<DoctorRecord[]> {
-  try {
-    const doctors = await prisma.doctor.findMany({ orderBy: { rating: 'desc' }, take: 15 });
-    if (doctors.length > 0) {
-      return doctors.map((doc, index) =>
-        normalizeDoctor(
-          {
-            id: doc.id,
-            name: doc.name,
-            specialization: doc.specialization,
-            experience: doc.experience,
-            rating: doc.rating,
-            consultationFee: doc.consultationFee,
-            location: doc.location,
-            hospital: doc.hospital,
-            phone: doc.phone ?? undefined,
-            email: doc.email ?? undefined,
-            imageUrl: doc.imageUrl ?? undefined,
-            source: doc.source,
-            profileUrl: doc.profileUrl ?? undefined,
-          },
-          index
-        )
-      );
-    }
-  } catch {
+try {
+  const doctors = await prisma.doctor.findMany({ orderBy: { rating: 'desc' }, take: 15 });
+  if (doctors.length > 0) {
+    return doctors.map((doc: DoctorType, index: number) =>
+      normalizeDoctor(
+        {
+          id: doc.id,
+          name: doc.name,
+          specialization: doc.specialization,
+          experience: doc.experience,
+          rating: doc.rating,
+          consultationFee: doc.consultationFee,
+          location: doc.location,
+          hospital: doc.hospital,
+          phone: doc.phone ?? undefined,
+          email: doc.email ?? undefined,
+          imageUrl: doc.imageUrl ?? undefined,
+          source: doc.source,
+          profileUrl: doc.profileUrl ?? undefined,
+        },
+        index
+      )
+    );
+  }
+} catch {
     // fallback below
   }
   return FALLBACK_DOCTORS;
