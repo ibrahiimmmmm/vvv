@@ -10,9 +10,22 @@ interface DoctorCardProps {
 }
 
 export default function DoctorCard({ doctor, showViewProfile = true }: DoctorCardProps) {
+  const handleViewProfile = () => {
+    if (doctor.profileUrl && doctor.profileUrl.startsWith('http')) {
+      // Redirect to external website
+      window.open(doctor.profileUrl, '_blank');
+    } else {
+      // Fallback to internal page
+      window.location.href = `/doctors/${doctor.id}`;
+    }
+  };
+
   return (
     <div className="card overflow-hidden group h-full flex flex-col">
-      <Link href={`/doctors/${doctor.id}`} className="block">
+      <button
+        onClick={handleViewProfile}
+        className="block w-full text-left cursor-pointer"
+      >
         <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-8 flex flex-col items-center relative">
           <DoctorAvatar
             name={doctor.name}
@@ -25,13 +38,16 @@ export default function DoctorCard({ doctor, showViewProfile = true }: DoctorCar
             ⭐ {doctor.rating}
           </div>
         </div>
-      </Link>
+      </button>
 
       <div className="p-6 flex flex-col flex-1">
-        <Link href={`/doctors/${doctor.id}`} className="hover:text-emerald-700 transition">
+        <button
+          onClick={handleViewProfile}
+          className="text-left hover:text-emerald-700 transition w-full"
+        >
           <h3 className="text-xl font-bold text-slate-900 mb-1">{doctor.name}</h3>
           <p className="text-emerald-600 font-semibold mb-4">{doctor.specialization}</p>
-        </Link>
+        </button>
 
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="bg-amber-50 rounded-xl p-3 text-center">
@@ -53,12 +69,12 @@ export default function DoctorCard({ doctor, showViewProfile = true }: DoctorCar
         </div>
 
         <div className="space-y-2 mt-auto">
-          <Link
-            href={`/doctors/${doctor.id}`}
+          <button
+            onClick={handleViewProfile}
             className="btn-secondary block w-full py-2.5 text-center text-sm"
           >
-            View Profile
-          </Link>
+            View Profile {doctor.profileUrl && doctor.profileUrl.startsWith('http') ? '↗' : ''}
+          </button>
           <Link
             href={`/booking?doctor=${encodeURIComponent(doctor.id)}&name=${encodeURIComponent(doctor.name)}`}
             className="btn-primary block w-full py-2.5 text-center text-sm"
